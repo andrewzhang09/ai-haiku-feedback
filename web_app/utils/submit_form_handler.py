@@ -4,9 +4,10 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
-# TODO: set up your API key
+from ..constants import OPENAI_API_KEY
+
 def initialize_llm_chain():
-    llm = ChatOpenAI()
+    llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY)
     prompt = ChatPromptTemplate.from_messages([
         ('system', 'You are a helpful assistant designed to rate haikus and generate haikus')
     ])
@@ -14,7 +15,7 @@ def initialize_llm_chain():
     chain = prompt | llm | output_parser
     return chain
 
-# TODO: detect if input is a haiku? Or should that be handled by OpenAI?
+# TODO: validate that user input is a haiku, if not then input different thing to OpenAI
 # TODO: save input to SQLite database
 def form_handler(user_input):
     chain = initialize_llm_chain()
